@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style-type: none;
+  text-decoration: none;
+}
+
+body{
+  font-family: 'Lato', sans-serif ;
+
+  div#App{
+    display: flex;
+
+    div#Part2{
+      width: calc(100% - 250px);
+      div#Content{
+        padding: 30px;
+      }
+    }
+  }
+
+}
