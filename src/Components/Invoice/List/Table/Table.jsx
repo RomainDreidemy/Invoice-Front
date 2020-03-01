@@ -1,7 +1,29 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import './Table.scss';
+import axios from "axios";
+import Line from "../Line/Line";
 
 function Table() {
+    const [invoices, setInvoices] = useState([]);
+    const [reload, setReload] = useState(true);
+
+    useEffect(() => {
+        getInvoices();
+    });
+
+    const getInvoices = () => {
+        if(reload){
+            axios.get("https://127.0.0.1:8000/api/invoices")
+                .then(response => {
+                    setInvoices(response.data["hydra:member"])
+                });
+            setReload(false);
+        }
+
+    };
+
+    getInvoices();
+
     return (
         <div className="Table">
             <h3>Invoices (17)</h3>
@@ -22,30 +44,11 @@ function Table() {
                     </tr>
                 </thead>
                 <tbody>
-                <tr className="tr-hover">
-                    <td>Invoice name</td>
-                    <td><div className="label label-send">Send</div></td>
-                    <td>29/02/2020</td>
-                    <td>28/02/2020</td>
-                </tr>
-                <tr className="tr-hover">
-                    <td>Invoice name</td>
-                    <td><div className="label label-to-complete">To complete</div></td>
-                    <td>29/02/2020</td>
-                    <td>28/02/2020</td>
-                </tr>
-                <tr className="tr-hover">
-                    <td>Invoice name</td>
-                    <td><div className="label label-waiting">In waiting</div></td>
-                    <td>29/02/2020</td>
-                    <td>28/02/2020</td>
-                </tr>
-                <tr className="tr-hover">
-                    <td>Invoice name</td>
-                    <td><div className="label label-paid">Paid</div></td>
-                    <td>29/02/2020</td>
-                    <td>28/02/2020</td>
-                </tr>
+                {
+                    invoices.map(invoice => {
+                        return <Line key={invoice.id} invoice={invoice} />
+                    })
+                }
                 </tbody>
             </table>
         </div>
