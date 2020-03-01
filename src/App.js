@@ -3,13 +3,13 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
 } from "react-router-dom";
-import InvoicesList from './Components/Invoice/Invoices-list';
+import InvoicesList from './Components/Invoice/List/Invoices-list';
 import Navigation from './Components/Navigation/Navigation';
 import NavigationAlt from "./Components/Navigation/NavigationAlt";
-import logo from './logo.svg';
 import './App.scss';
+import Generate from "./Components/Invoice/Generate/Generate";
+import './Components/Styles/global.scss'
 
 function App() {
     return (
@@ -20,8 +20,12 @@ function App() {
                 <div id="Content">
                     <Router>
                         <Switch>
-                            <Route exact path="/">
+                            <Route exact path="/invoice">
                                 <InvoicesList />
+                            </Route>
+
+                            <Route exact path="/invoice/new">
+                                <Generate />
                             </Route>
                         </Switch>
                     </Router>
