@@ -1,0 +1,88 @@
+.label{
+  width: 141px;
+  height: 32px;
+  text-align: center;
+  line-height: 32px;
+  border-radius: 5px;
+
+  &.label-paid{
+    background: #D1F8DA;
+  }
+
+  &.label-waiting{
+    background: #FFEFCA;
+  }
+
+  &.label-to-complete{
+    background: #FFD9D1;
+  }
+
+  &.label-send{
+    background: #efe7ff;
+  }
+}
+table{
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+
+
+  th, td{
+    height: 55px;
+    border: none;
+    border-bottom: 1px solid #A5C9FF;
+  }
+
+  th{
+    border-top: 1px solid #A5C9FF;
+  }
+
+  td:first-child, th:first-child{
+    padding-left: 10px;
+  }
+
+  tr.tr-hover{
+    &:hover{
+      background: #A5C9FF;
+      cursor: pointer;
+    }
+  }
+
+}
+
+.btn-add-invoice{
+  width: 177px;
+  height: 48px;
+  line-height: 48px;
+  background: #174A84;
+  display: inline-block;
+  text-align: center;
+  color: #fff;
+  border-radius: 30px;
+}
+
+.btn{
+  width: 127px;
+  height: 32px;
+  border-radius: 7px;
+  border: 1px solid #174a84;
+  text-align: center;
+  line-height: 32px;
+  cursor: pointer;
+
+  &.btn-success{
+    background: #d1f8da;
+  }
+
+  &.btn-danger{
+    background: #FFD9D1;
+  }
+
+  &.btn-info{
+    background: #EFE7FF;
+  }
+
+  &.btn-waiting{
+    background: #FFEFCA;
+  }
+}

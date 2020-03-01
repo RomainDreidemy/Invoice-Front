@@ -1,0 +1,30 @@
+div#Generate{
+  div.generateInfo{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  div.addLine{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+  }
+
+  form{
+    table{
+      input{
+        border: none;
+        height: 30px;
+      }
+
+      input[type="text"]{
+        width: 225px;
+      }
+
+      input[type="number"]{
+        width: 50px;
+      }
+    }
+  }
+}
