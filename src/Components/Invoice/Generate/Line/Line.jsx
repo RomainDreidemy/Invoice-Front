@@ -1,6 +1,8 @@
 import React from "react";
 
-function Line() {
+function Line(props) {
+
+    console.log(props);
 
     // Mise à jour des ma valeur int_VAT
     const update = (e) => {
@@ -23,10 +25,10 @@ function Line() {
 
     return (
         <tr>
-            <td><input type="text" name="description[]" placeholder="description..."/></td>
-            <td><input type="number" name="unit[]" placeholder="0" onChange={(e) => {update(e)}}/></td>
-            <td><input type="number" name="unit_price[]" placeholder="0" onChange={(e) => {update(e)}}/></td>
-            <td><input type="number" name="vat_pourcentage[]" placeholder="0" onChange={(e) => {update(e)}}/></td>
+            <td><input type="text" name="description[]" placeholder="description..." value={props.data.name}/></td>
+            <td><input type="number" name="unit[]" placeholder="0" value={props.data.unit} onChange={(e) => {update(e)}}/></td>
+            <td><input type="number" name="unit_price[]" placeholder="0" value={props.data.unitPrice} onChange={(e) => {update(e)}}/></td>
+            <td><input type="number" name="vat_pourcentage[]" placeholder="0" value={props.data.vatPourcentage} onChange={(e) => {update(e)}}/></td>
             <td className="td-disable"><input type="number" name="vat_euro[]" placeholder="0" defaultValue={0} disabled={true}/></td>
             <td className="td-disable"><input type="number" name="ext_vat[]" placeholder={"0"} defaultValue={0} disabled={true}/></td>
             <td className="td-disable"><input type="number" name="int_vat[]" placeholder="0" defaultValue={0} disabled={true}/></td>

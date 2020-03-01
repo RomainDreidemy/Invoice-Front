@@ -1,7 +1,6 @@
 import React from 'react';
 import Table from "./Table/Table";
 import './Invoices-list.scss';
-import axios from 'axios';
 
 function InvoicesList() {
 

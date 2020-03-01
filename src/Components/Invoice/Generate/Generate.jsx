@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import './Generate.scss';
 import Line from "./Line/Line";
+import axios from "axios";
 
 function submitForm(){
 
@@ -8,22 +9,50 @@ function submitForm(){
     let unit = document.querySelectorAll("input[name='unit[]']");
     let unitPrice = document.querySelectorAll("input[name='unit_price[]']");
     let vatPourcentage = document.querySelectorAll("input[name='vat_pourcentage[]']");
-    let vatEuro = document.querySelectorAll("input[name='vat_euro[]']");
-    let extVat = document.querySelectorAll("input[name='ext_vat[]']");
-    let IntVat = document.querySelectorAll("input[name='int_vat[]']");
+    // let vatEuro = document.querySelectorAll("input[name='vat_euro[]']");
+    // let extVat = document.querySelectorAll("input[name='ext_vat[]']");
+    // let IntVat = document.querySelectorAll("input[name='int_vat[]']");
+    let Name = document.getElementById("nameInvoice").textContent;
     let formData = [];
 
     for(let i = 0; i < descriptions.length; i++){
         formData.push([
             descriptions[i].value,
-            unit[i].value,
-            unitPrice[i].value,
-            vatPourcentage[i].value,
-            vatEuro[i].value,
-            extVat[i].value,
-            IntVat[i].value,
+            parseInt(unit[i].value),
+            parseInt(unitPrice[i].value),
+            parseInt(vatPourcentage[i].value),
+            // vatEuro[i].value,
+            // extVat[i].value,
+            // IntVat[i].value,
         ]);
     }
+
+    let data = {
+        dateModified: new Date(),
+        dateCreated: new Date(),
+        status: 4,
+        User: '/api/users/3',
+        name: Name
+    };
+
+    axios.post("https://127.0.0.1:8000/api/invoices", data)
+        .then(response => {
+            console.log("Création d'une facture");
+            formData.map(data => {
+                let toSend = {
+                    name: data[0],
+                    unit: data[1],
+                    unitPrice: data[2],
+                    vatPourcentage: data[3],
+                    Invoice: response.data['@id']
+                };
+
+                axios.post("https://127.0.0.1:8000/api/invoice_lines", toSend)
+                    .then(response => {
+                        console.log("Création de ligne dans la facture");
+                    })
+            })
+        });
 
     console.log(formData);
 }
@@ -56,14 +85,16 @@ function Generate() {
         allLines.push(0);
         setLines(allLines);
         setReactEstDébile(ReactEstDébile+1);
-    }
+    };
+
+    let lineKey = 0;
 
     return(
         <div id="Generate">
 
             <div className="generateInfo">
                 <div>
-                    <h1 contentEditable={true}>Set name</h1>
+                    <h1 id="nameInvoice" contentEditable={true}>Set name</h1>
                     <p>Date modified : 27/01/2019</p>
                     <p>Date created : 26/01/2019</p>
                 </div>
@@ -87,7 +118,7 @@ function Generate() {
                         </thead>
                         <tbody id="table-add-invoice-body">
                             {Lines.map(element => {
-                                return <Line/>
+                                return <Line key={lineKey++} data={[]}/>
                             })}
                         </tbody>
                     </table>

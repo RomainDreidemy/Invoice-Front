@@ -24,10 +24,14 @@ function Line(props) {
             labelClass = "to-complete";
             labelName = "To complete";
             break;
+        default:
+            labelClass = "to-complete";
+            labelName = "To complete";
+            break;
     }
 
     return(
-        <tr>
+        <tr onClick={() => {window.location.href = '/invoice/update/' + invoice.id}}>
             <td>{invoice.name}</td>
             <td><div className={"label label-" + labelClass}>{labelName}</div></td>
             <td>{dateModified.getDate()}/{dateModified.getMonth()}/{dateModified.getFullYear()}</td>

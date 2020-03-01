@@ -10,6 +10,7 @@ import NavigationAlt from "./Components/Navigation/NavigationAlt";
 import './App.scss';
 import Generate from "./Components/Invoice/Generate/Generate";
 import './Components/Styles/global.scss'
+import InvoiceUpdate from './Components/Invoice/Update/Invoice-update';
 
 function App() {
     return (
@@ -26,6 +27,10 @@ function App() {
 
                             <Route exact path="/invoice/new">
                                 <Generate />
+                            </Route>
+
+                            <Route exact path="/invoice/update/:id">
+                                <InvoiceUpdate/>
                             </Route>
                         </Switch>
                     </Router>
