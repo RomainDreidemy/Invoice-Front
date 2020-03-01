@@ -95,7 +95,7 @@ function Generate() {
             </form>
 
             <div className="card-total">
-                Total Ext VAR : {totalExtVat} € <br/>
+                Total Ext VAT : {totalExtVat} € <br/>
                 Total Inc VAT : {totalIncVat} €
             </div>
 
