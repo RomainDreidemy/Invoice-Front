@@ -34,6 +34,7 @@ function UpdateInvoice() {
                     let lines = [];
                     let ExtVAT = 0;
                     let IntVAT = 0;
+                    let i = 0;
                     invoiceLines.map(line => {
                         lines.push(<Line data={line}/>)
 
@@ -42,8 +43,8 @@ function UpdateInvoice() {
 
                     });
 
-                    setTotalIncVat(IntVAT)
-                    setTotalExtVat(ExtVAT)
+                    setTotalIncVat(IntVAT);
+                    setTotalExtVat(ExtVAT);
 
                     setLinesDatas(lines);
                 });

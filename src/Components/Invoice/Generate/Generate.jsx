@@ -10,9 +10,6 @@ function submitForm(){
     let unitPrice = document.querySelectorAll("input[name='unit_price[]']");
     let vatPourcentage = document.querySelectorAll("input[name='vat_pourcentage[]']");
     let order = document.querySelectorAll("input[name='order[]']");
-    // let vatEuro = document.querySelectorAll("input[name='vat_euro[]']");
-    // let extVat = document.querySelectorAll("input[name='ext_vat[]']");
-    // let IntVat = document.querySelectorAll("input[name='int_vat[]']");
     let Name = document.getElementById("nameInvoice").textContent;
     let formData = [];
 
@@ -38,6 +35,7 @@ function submitForm(){
         .then(response => {
             console.log("Création d'une facture");
             const idInvoice = response.data.id;
+            let indexNbLines = 0;
             formData.map(data => {
                 let toSend = {
                     name: data[0],
@@ -51,9 +49,12 @@ function submitForm(){
                 axios.post("https://127.0.0.1:8000/api/invoice_lines", toSend)
                     .then(response => {
                         console.log("Création de ligne dans la facture");
+                        indexNbLines++;
+                        if(formData.length === indexNbLines){
+                            window.location.href = '/invoice/update/' + idInvoice;
+                        }
                     })
             });
-            window.location.href = '/invoice/update/' + idInvoice;
         });
 
     console.log(formData);
