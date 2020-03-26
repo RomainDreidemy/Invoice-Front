@@ -1,8 +1,6 @@
 import React from "react";
 
-function Line(props) {
-
-    console.log(props);
+function Line(props, {invoice}) {
 
     // Mise à jour des ma valeur int_VAT
     const update = (e) => {
@@ -25,13 +23,17 @@ function Line(props) {
 
     return (
         <tr>
-            <td><input type="text" name="description[]" placeholder="description..." value={props.data.name}/></td>
-            <td><input type="number" name="unit[]" placeholder="0" value={props.data.unit} onChange={(e) => {update(e)}}/></td>
-            <td><input type="number" name="unit_price[]" placeholder="0" value={props.data.unitPrice} onChange={(e) => {update(e)}}/></td>
-            <td><input type="number" name="vat_pourcentage[]" placeholder="0" value={props.data.vatPourcentage} onChange={(e) => {update(e)}}/></td>
+            <td>
+                {props.data.sequence ? props.data.sequence + " - " : ""}
+                <input type="text" name="description[]" placeholder="description..." defaultValue={props.data.name}/>
+            </td>
+            <td><input type="number" name="unit[]" placeholder="0" defaultValue={props.data.unit} onChange={(e) => {update(e)}}/></td>
+            <td><input type="number" name="unit_price[]" placeholder="0" defaultValue={props.data.unitPrice} onChange={(e) => {update(e)}}/></td>
+            <td><input type="number" name="vat_pourcentage[]" placeholder="0" defaultValue={props.data.vatPourcentage} onChange={(e) => {update(e)}}/></td>
             <td className="td-disable"><input type="number" name="vat_euro[]" placeholder="0" defaultValue={0} disabled={true}/></td>
             <td className="td-disable"><input type="number" name="ext_vat[]" placeholder={"0"} defaultValue={0} disabled={true}/></td>
             <td className="td-disable"><input type="number" name="int_vat[]" placeholder="0" defaultValue={0} disabled={true}/></td>
+            <input type="hidden" name="order[]" value={props.data.sequence ? props.data.sequence : props.order}/>
         </tr>
     );
 }

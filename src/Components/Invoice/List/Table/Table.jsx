@@ -13,7 +13,7 @@ function Table() {
 
     const getInvoices = () => {
         if(reload){
-            axios.get("https://127.0.0.1:8000/api/invoices")
+                axios.get("https://127.0.0.1:8000/api/invoices")
                 .then(response => {
                     setInvoices(response.data["hydra:member"])
                 });
@@ -26,7 +26,7 @@ function Table() {
 
     return (
         <div className="Table">
-            <h3>Invoices (17)</h3>
+            <h3>Invoices ({invoices.length})</h3>
 
             <div className="action">
                 <a href="/">Delete</a>

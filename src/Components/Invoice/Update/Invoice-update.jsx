@@ -6,11 +6,15 @@ import axios from 'axios';
 
 
 function UpdateInvoice() {
+    const [totalExtVat, setTotalExtVat] = useState(0);
+    const [totalIncVat, setTotalIncVat] = useState(0);
     const [Lines, setLines] = useState([]);
     const [ReactEstDébile, setReactEstDébile] = useState(0);
     const [invoiceDatas, setInvoiceDatas] = useState([]);
     const [linesDatas, setLinesDatas] =useState([]);
     const [reload, setReload] = useState(true);
+    const [saveDisable, setSaveDisable] = useState("");
+    const [inProgress, setInprogress] = useState(false);
 
     useEffect(() => {
         getData()
@@ -26,12 +30,20 @@ function UpdateInvoice() {
                 });
             axios.get("https://127.0.0.1:8000/api/invoice_lines?Invoice=" + id)
                 .then(response => {
-                    console.log(response.data['hydra:member'])
                     let invoiceLines = response.data['hydra:member'];
                     let lines = [];
+                    let ExtVAT = 0;
+                    let IntVAT = 0;
                     invoiceLines.map(line => {
                         lines.push(<Line data={line}/>)
+
+                        ExtVAT = ExtVAT + (line.unitPrice * line.unit)
+                        IntVAT = IntVAT + (line.unitPrice * line.unit) + ((line.unitPrice * line.unit) / 100 * line.vatPourcentage)
+
                     });
+
+                    setTotalIncVat(IntVAT)
+                    setTotalExtVat(ExtVAT)
 
                     setLinesDatas(lines);
                 });
@@ -49,11 +61,14 @@ function UpdateInvoice() {
         setReactEstDébile(ReactEstDébile+1);
     };
 
-    const updateInvoiceLines = () => {
+    const updateInvoiceLines = (e) => {
+        setSaveDisable("d-none");
+        setInprogress(true);
         let descriptions = document.querySelectorAll("input[name='description[]']");
         let unit = document.querySelectorAll("input[name='unit[]']");
         let unitPrice = document.querySelectorAll("input[name='unit_price[]']");
         let vatPourcentage = document.querySelectorAll("input[name='vat_pourcentage[]']");
+        let order = document.querySelectorAll("input[name='order[]']");
         let Name = document.getElementById("nameInvoice").textContent;
         let formData = [];
 
@@ -63,10 +78,10 @@ function UpdateInvoice() {
                 parseInt(unit[i].value),
                 parseInt(unitPrice[i].value),
                 parseInt(vatPourcentage[i].value),
+                parseInt(order[i].value)
             ]);
         }
 
-        console.log(Name);
         let data = {
             dateModified: new Date(),
             "name": Name
@@ -77,42 +92,54 @@ function UpdateInvoice() {
             headers: {
                 'Content-Type': 'application/merge-patch+json',
             }
-        })
+            })
             .then(response => {
                 console.log("Invoice updated")
             });
 
 
-
+        let nbLineDeleted = 0
         // Suppression des lignes pour la facture
         linesDatas.map(lineData => {
-            console.log(lineData.props.data.id)
+            console.log(lineData.props.data.id);
             axios.delete("https://127.0.0.1:8000/api/invoice_lines/" + lineData.props.data.id)
                 .then(response => {
-                    console.log(response);
+                    console.log("Suppresion de la ligne " + lineData.props.data.name);
+                    nbLineDeleted++;
+                    if(nbLineDeleted === linesDatas.length){
+                        // Ajout de toute les lignes
+                        let nbLineCreated = 0;
+                        formData.map(data => {
+                            let toSend = {
+                                name: data[0],
+                                unit: data[1],
+                                unitPrice: data[2],
+                                vatPourcentage: data[3],
+                                sequence: data[4],
+                                Invoice: "/api/invoices/" + id
+                            };
+
+                            axios.post("https://127.0.0.1:8000/api/invoice_lines", toSend)
+                                .then(response => {
+                                    console.log("Création de ligne dans la facture");
+
+                                    nbLineCreated++;
+                                    if(nbLineCreated === formData.length){
+                                        setSaveDisable("");
+                                        window.location.reload();
+                                    }
+                                });
+
+                        });
+                    }
                 })
         });
 
-        // Ajout de toute les lignes
-        formData.map(data => {
-            let toSend = {
-                name: data[0],
-                unit: data[1],
-                unitPrice: data[2],
-                vatPourcentage: data[3],
-                Invoice: "/api/invoices/" + id
-            };
 
-            axios.post("https://127.0.0.1:8000/api/invoice_lines", toSend)
-                .then(response => {
-                    console.log("Création de ligne dans la facture");
-                })
-        });
-
-        console.log(formData);
     };
 
     let lineKey = 0;
+    let lineOrder = linesDatas.length + 1;
 
     return (
         <div id="Generate">
@@ -123,9 +150,12 @@ function UpdateInvoice() {
                     <p>Date modified : 27/01/2019</p>
                     <p>Date created : 26/01/2019</p>
                 </div>
-                <div className="btn btn-success" onClick={() => {updateInvoiceLines()}}>Save</div>
+                <div className={"btn btn-success " + saveDisable} onClick={(e) => {updateInvoiceLines(e)}}>Save</div>
             </div>
 
+            {
+                inProgress ? <div className="alert alert-warning">La sauvegarde est en cours. La page va se recharger quand ça sera fini. Merci</div> : ""
+            }
 
             <form id="form-add-invoice">
                 <div className="Table">
@@ -144,7 +174,7 @@ function UpdateInvoice() {
                         <tbody id="table-add-invoice-body">
                         {linesDatas}
                         {Lines.map(element => {
-                            return <Line key={lineKey++} data={[]}/>
+                            return <Line key={lineKey++} data={[]} order={lineOrder++}/>
                         })}
                         </tbody>
                     </table>
@@ -152,8 +182,8 @@ function UpdateInvoice() {
             </form>
 
             <div className="card-total">
-                {/*Total Ext VAT : {totalExtVat} € <br/>*/}
-                {/*Total Inc VAT : {totalIncVat} €*/}
+                Total Ext VAT : {totalExtVat} € <br/>
+                Total Inc VAT : {totalIncVat} €
             </div>
 
             <div className="addLine">

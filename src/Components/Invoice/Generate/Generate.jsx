@@ -9,6 +9,7 @@ function submitForm(){
     let unit = document.querySelectorAll("input[name='unit[]']");
     let unitPrice = document.querySelectorAll("input[name='unit_price[]']");
     let vatPourcentage = document.querySelectorAll("input[name='vat_pourcentage[]']");
+    let order = document.querySelectorAll("input[name='order[]']");
     // let vatEuro = document.querySelectorAll("input[name='vat_euro[]']");
     // let extVat = document.querySelectorAll("input[name='ext_vat[]']");
     // let IntVat = document.querySelectorAll("input[name='int_vat[]']");
@@ -21,10 +22,8 @@ function submitForm(){
             parseInt(unit[i].value),
             parseInt(unitPrice[i].value),
             parseInt(vatPourcentage[i].value),
-            // vatEuro[i].value,
-            // extVat[i].value,
-            // IntVat[i].value,
-        ]);
+            parseInt(order[i].value)
+    ]);
     }
 
     let data = {
@@ -32,18 +31,20 @@ function submitForm(){
         dateCreated: new Date(),
         status: 4,
         User: '/api/users/3',
-        name: Name
+        name: Name,
     };
 
     axios.post("https://127.0.0.1:8000/api/invoices", data)
         .then(response => {
             console.log("Création d'une facture");
+            const idInvoice = response.data.id;
             formData.map(data => {
                 let toSend = {
                     name: data[0],
                     unit: data[1],
                     unitPrice: data[2],
                     vatPourcentage: data[3],
+                    sequence: data[4],
                     Invoice: response.data['@id']
                 };
 
@@ -51,7 +52,8 @@ function submitForm(){
                     .then(response => {
                         console.log("Création de ligne dans la facture");
                     })
-            })
+            });
+            window.location.href = '/invoice/update/' + idInvoice;
         });
 
     console.log(formData);
@@ -88,6 +90,7 @@ function Generate() {
     };
 
     let lineKey = 0;
+    let lineOrder = 1;
 
     return(
         <div id="Generate">
@@ -118,7 +121,7 @@ function Generate() {
                         </thead>
                         <tbody id="table-add-invoice-body">
                             {Lines.map(element => {
-                                return <Line key={lineKey++} data={[]}/>
+                                return <Line key={lineKey++} data={[]} order={lineOrder++}/>
                             })}
                         </tbody>
                     </table>
