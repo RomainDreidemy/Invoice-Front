@@ -22,10 +22,8 @@ function Line(props, {invoice}) {
         e.target.parentNode.parentNode.childNodes[6].firstChild.value = IntVat;
     };
 
-    const removeLine = (id) => {
-      console.log(id);
-      Axios.delete(`https://127.0.0.1:8000/api/invoice_lines/${id}`)
-          .then(() => { window.location.reload() })
+    const removeLine = (e) => {
+        if(window.confirm('Voulez-vous vraiment supprimer la ligne')){e.target.parentNode.parentNode.remove();}
     };
 
     return (
@@ -39,7 +37,7 @@ function Line(props, {invoice}) {
             <td><input type="number" name="vat_pourcentage[]" placeholder="0" defaultValue={props.data.vatPourcentage} onChange={(e) => {update(e)}}/></td>
             <td className="td-disable"><input type="number" name="vat_euro[]" placeholder="0" defaultValue={0} disabled={true}/></td>
             <td className="td-disable"><input type="number" name="ext_vat[]" placeholder={"0"} defaultValue={0} disabled={true}/></td>
-            <td className="td-disable"><input type="number" name="int_vat[]" placeholder="0" defaultValue={0} disabled={true}/> <a onClick={() => removeLine(props.data.id)}>del</a></td>
+            <td className="td-disable"><input type="number" name="int_vat[]" placeholder="0" defaultValue={0} disabled={true}/> <a onClick={(e) => removeLine(e)}>del</a></td>
             <input type="hidden" name="order[]" value={props.data.sequence ? props.data.sequence : props.order}/>
         </tr>
     );
