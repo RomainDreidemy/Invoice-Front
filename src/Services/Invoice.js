@@ -1,4 +1,5 @@
 import axios from 'axios';
+import InvoiceLine from "./InvoiceLine";
 
 class Invoice {
    static getInvoiceList(){
@@ -8,7 +9,6 @@ class Invoice {
                    resolve(response.data["hydra:member"])
                });
        })
-
    }
 
     static changeStatus(id, status){
@@ -29,6 +29,28 @@ class Invoice {
                 }
             }).then(() => resolve()).catch(() => reject());
         }))
+    }
+
+    static delete(id){
+       return new Promise(((resolve, reject) => {
+           //Récupération des lignes
+           InvoiceLine.getLinesByInvoiceId(id).then((LinesToDelete) => {
+               //Suppression des lignes
+               let indexLineToDelete = 0;
+               LinesToDelete.map((line) => {
+                   InvoiceLine.delete(line.id).then(() => {
+                       indexLineToDelete++;
+                       if(indexLineToDelete === LinesToDelete.length){
+                       //    Suppression de la facture
+                           axios.delete(`${process.env.REACT_APP_API}invoices/${id}`).then(() => resolve()).catch((err) => {reject(err)})
+                       }
+                   })
+               })
+           });
+
+           //TODO : Suppression des lignes
+
+       }))
     }
 }
 

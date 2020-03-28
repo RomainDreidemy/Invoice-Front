@@ -210,6 +210,14 @@ function UpdateInvoice() {
             <div className="addLine">
                 <div className="btn-add-invoice" onClick={() => {addLine()}}>New invoice +</div>
             </div>
+
+            <div onClick={() => {
+                if(window.confirm('Êtes vous sûr de bien vouloir supprimer cette facture ?')){
+                    Invoice.delete(invoiceDatas.id).then(() => {
+                        window.location.href = '/invoice'
+                    })
+                }
+            }}>Delete invoice</div>
         </div>
     );
 }
