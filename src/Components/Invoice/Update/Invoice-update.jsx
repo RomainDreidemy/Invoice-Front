@@ -8,6 +8,8 @@ import Invoice from '../../../Services/Invoice';
 
 
 function UpdateInvoice() {
+    //Identifiant dans l'url
+    let { id } = useParams();
     const [totalExtVat, setTotalExtVat] = useState(0);
     const [totalIncVat, setTotalIncVat] = useState(0);
     const [Lines, setLines] = useState([]);
@@ -22,8 +24,8 @@ function UpdateInvoice() {
         getData()
     });
 
-    let { id } = useParams();
 
+    //Todo Créer une method dans les Services pour récupérer les datas
     const getData = () => {
         if(reload){
             axios.get("https://127.0.0.1:8000/api/invoices/" + id)
@@ -72,8 +74,6 @@ function UpdateInvoice() {
         let unitPrice = document.querySelectorAll("input[name='unit_price[]']");
         let vatPourcentage = document.querySelectorAll("input[name='vat_pourcentage[]']");
         let order = document.querySelectorAll("input[name='order[]']");
-        let statut = document.getElementById("invoiceStatut");
-        let Name = document.getElementById("nameInvoice").textContent;
         let formData = [];
 
         for(let i = 0; i < descriptions.length; i++){
@@ -153,17 +153,16 @@ function UpdateInvoice() {
 
     return (
         <div id="Generate">
-
             <div className="generateInfo">
                 <div>
                     <h1 id="nameInvoice" contentEditable={true} onBlur={(e => Invoice.changeName(invoiceDatas.id, e.target.textContent))} >{invoiceDatas.name}</h1>
+                    {/*Todo: afficher la date dynamiquement*/}
                     <p>Date modified : 27/01/2019</p>
                     <p>Date created : 26/01/2019</p>
                 </div>
                 <div>
-                    <select name="invoiceStatut" id="invoiceStatut" onChange={(e) => {
-                        Invoice.changeStatus(invoiceDatas.id, e.target.value)
-                    }}>
+                    {/*TODO: Créer Component pour la sélection du statut*/}
+                    <select name="invoiceStatut" id="invoiceStatut" onChange={(e) => Invoice.changeStatus(invoiceDatas.id, e.target.value)}>
                         <option value="1" selected={invoiceDatas.status === 1} >Paid</option>
                         <option value="2" selected={invoiceDatas.status === 2}>Send</option>
                         <option value="3" selected={invoiceDatas.status === 3}>In waiting</option>

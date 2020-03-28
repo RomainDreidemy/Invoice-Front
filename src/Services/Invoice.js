@@ -2,7 +2,7 @@ import axios from 'axios';
 import InvoiceLine from "./InvoiceLine";
 
 class Invoice {
-   static getInvoiceList(){
+    static getInvoiceList(){
        return new Promise(resolve => {
            axios.get(`${process.env.REACT_APP_API}invoices`)
                .then(response => {
@@ -10,6 +10,15 @@ class Invoice {
                });
        })
    }
+
+    static getById(){
+    //    Todo: Récupérer les données par un identifiant
+    }
+
+    static add(name){
+    //    Todo: Créer une nouvelle facture
+    }
+
 
     static changeStatus(id, status){
         return new Promise(((resolve, reject) => {
@@ -47,9 +56,6 @@ class Invoice {
                    })
                })
            });
-
-           //TODO : Suppression des lignes
-
        }))
     }
 }
