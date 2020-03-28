@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import './Table.scss';
 import axios from "axios";
 import Line from "../Line/Line";
+import Invoice from "../../../../Services/Invoice";
 
 function Table() {
     const [invoices, setInvoices] = useState([]);
@@ -13,10 +14,9 @@ function Table() {
 
     const getInvoices = () => {
         if(reload){
-                axios.get("https://127.0.0.1:8000/api/invoices")
-                .then(response => {
-                    setInvoices(response.data["hydra:member"])
-                });
+            Invoice.getInvoiceList().then((response) => {
+                setInvoices(response);
+            });
             setReload(false);
         }
 
