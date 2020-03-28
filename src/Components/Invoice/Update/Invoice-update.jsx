@@ -2,6 +2,8 @@ import React, {useState,useEffect} from "react";
 import {useParams} from 'react-router-dom';
 import Line from "../Generate/Line/Line";
 import axios from 'axios';
+import InvoiceLine from '../../../Services/InvoiceLine';
+import Invoice from '../../../Services/Invoice';
 
 
 
@@ -70,6 +72,7 @@ function UpdateInvoice() {
         let unitPrice = document.querySelectorAll("input[name='unit_price[]']");
         let vatPourcentage = document.querySelectorAll("input[name='vat_pourcentage[]']");
         let order = document.querySelectorAll("input[name='order[]']");
+        let statut = document.getElementById("invoiceStatut");
         let Name = document.getElementById("nameInvoice").textContent;
         let formData = [];
 
@@ -85,7 +88,6 @@ function UpdateInvoice() {
 
         let data = {
             dateModified: new Date(),
-            "name": Name
         };
 
         // Mise a jour des infos Invoices
@@ -95,48 +97,55 @@ function UpdateInvoice() {
             }
             })
             .then(response => {
-                console.log("Invoice updated")
-            });
+                console.log("Invoice updated");
 
+                let nbLineDeleted = 0;
+                // Suppression des lignes pour la facture
+                if(linesDatas.length !== 0){
+                    linesDatas.map(lineData => {
+                        console.log(lineData.props.data.id);
+                        InvoiceLine.delete(lineData.props.data.id).then(() => {
+                            console.log("Suppresion de la ligne " + lineData.props.data.name);
+                            nbLineDeleted++;
+                            if(nbLineDeleted === linesDatas.length){
+                                // Ajout de toutes les lignes
+                                if(formData.length !== 0){
 
-        let nbLineDeleted = 0
-        // Suppression des lignes pour la facture
-        linesDatas.map(lineData => {
-            console.log(lineData.props.data.id);
-            axios.delete("https://127.0.0.1:8000/api/invoice_lines/" + lineData.props.data.id)
-                .then(response => {
-                    console.log("Suppresion de la ligne " + lineData.props.data.name);
-                    nbLineDeleted++;
-                    if(nbLineDeleted === linesDatas.length){
-                        // Ajout de toute les lignes
+                                    let nbLineCreated = 0;
+                                    formData.map(data => {
+                                        InvoiceLine.add(data[0], data[1], data[2], data[3], data[4], "/api/invoices/" + id)
+                                            .then(() => {
+                                                nbLineCreated++;
+                                                if(nbLineCreated === formData.length){
+                                                    setSaveDisable("");
+                                                    window.location.reload();
+                                                }
+                                            });
+                                    });
+                                }else {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    });
+                }else {
+                    if(formData.length !== 0){
                         let nbLineCreated = 0;
                         formData.map(data => {
-                            let toSend = {
-                                name: data[0],
-                                unit: data[1],
-                                unitPrice: data[2],
-                                vatPourcentage: data[3],
-                                sequence: data[4],
-                                Invoice: "/api/invoices/" + id
-                            };
-
-                            axios.post("https://127.0.0.1:8000/api/invoice_lines", toSend)
-                                .then(response => {
-                                    console.log("Création de ligne dans la facture");
-
+                            InvoiceLine.add(data[0], data[1], data[2], data[3], data[4], "/api/invoices/" + id)
+                                .then(() => {
                                     nbLineCreated++;
                                     if(nbLineCreated === formData.length){
                                         setSaveDisable("");
                                         window.location.reload();
                                     }
                                 });
-
                         });
+                    }else{
+                        window.location.reload();
                     }
-                })
-        });
-
-
+                }
+            });
     };
 
     let lineKey = 0;
@@ -147,11 +156,22 @@ function UpdateInvoice() {
 
             <div className="generateInfo">
                 <div>
-                    <h1 id="nameInvoice" contentEditable={true}>{invoiceDatas.name}</h1>
+                    <h1 id="nameInvoice" contentEditable={true} onBlur={(e => Invoice.changeName(invoiceDatas.id, e.target.textContent))} >{invoiceDatas.name}</h1>
                     <p>Date modified : 27/01/2019</p>
                     <p>Date created : 26/01/2019</p>
                 </div>
-                <div className={"btn btn-success " + saveDisable} onClick={(e) => {updateInvoiceLines(e)}}>Save</div>
+                <div>
+                    <select name="invoiceStatut" id="invoiceStatut" onChange={(e) => {
+                        Invoice.changeStatus(invoiceDatas.id, e.target.value)
+                    }}>
+                        <option value="1" selected={invoiceDatas.status === 1} >Paid</option>
+                        <option value="2" selected={invoiceDatas.status === 2}>Send</option>
+                        <option value="3" selected={invoiceDatas.status === 3}>In waiting</option>
+                        <option value="4" selected={invoiceDatas.status === 4}>To complete</option>
+                    </select>
+                    <div className={"btn btn-success " + saveDisable} onClick={(e) => {updateInvoiceLines(e)}}>Save</div>
+                </div>
+
             </div>
 
             {

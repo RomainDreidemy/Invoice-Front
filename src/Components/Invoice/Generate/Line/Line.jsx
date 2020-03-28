@@ -1,5 +1,4 @@
 import React from "react";
-import Axios from "axios";
 
 function Line(props, {invoice}) {
 
@@ -22,6 +21,7 @@ function Line(props, {invoice}) {
         e.target.parentNode.parentNode.childNodes[6].firstChild.value = IntVat;
     };
 
+    //Suppresion d'une ligne
     const removeLine = (e) => {
         if(window.confirm('Voulez-vous vraiment supprimer la ligne')){e.target.parentNode.parentNode.remove();}
     };
