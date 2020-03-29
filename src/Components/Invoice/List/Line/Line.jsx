@@ -31,7 +31,7 @@ function Line(props) {
     }
 
     return(
-        <tr onClick={() => {window.location.href = '/invoice/update/' + invoice.id}}>
+        <tr className="hover" onClick={() => {window.location.href = '/invoice/update/' + invoice.id}}>
             <td>{invoice.name}</td>
             <td><div className={"label label-" + labelClass}>{labelName}</div></td>
             <td>{dateModified.getDate()}/{dateModified.getMonth()}/{dateModified.getFullYear()}</td>

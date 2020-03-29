@@ -22,8 +22,6 @@ function Table() {
 
     };
 
-    getInvoices();
-
     return (
         <div className="Table">
             <h3>Invoices ({invoices.length})</h3>

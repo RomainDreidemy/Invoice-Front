@@ -19,6 +19,14 @@ div.Table{
     }
   }
 
+  tbody{
+    tr{
+      cursor: pointer;
+      &.hover:hover{
+        background: #A5C9FF;
+      }
+    }
+  }
 
 
 }

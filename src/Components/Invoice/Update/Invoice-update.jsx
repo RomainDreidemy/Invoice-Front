@@ -5,8 +5,7 @@ import axios from 'axios';
 import InvoiceLine from '../../../Services/InvoiceLine';
 import Invoice from '../../../Services/Invoice';
 import SelectStatus from "./Status/SelectStatus";
-
-
+import './Invoice-update.scss';
 
 function UpdateInvoice() {
     //Identifiant dans l'url
@@ -59,14 +58,14 @@ function UpdateInvoice() {
     };
 
     //Mets à jours les lignes uniquements
-    //Todo: Voir pour faire un post
+    //Todo: Essayer de racourcir le code
     const updateInvoiceLines = (e) => {
         setSaveDisable("d-none");
         setInprogress(true);
         let descriptions = document.querySelectorAll("input[name='description[]']");
         let unit = document.querySelectorAll("input[name='unit[]']");
         let unitPrice = document.querySelectorAll("input[name='unit_price[]']");
-        let vatPourcentage = document.querySelectorAll("input[name='vat_pourcentage[]'");
+        let vatPourcentage = document.querySelectorAll("input[name='vat_pourcentage[]']");
         let order = document.querySelectorAll("input[name='order[]']");
         let formData = [];
 
@@ -167,9 +166,8 @@ function UpdateInvoice() {
                     <p>Date modified : {invoiceDatas.dateModified}</p>
                     <p>Date created : {invoiceDatas.dateCreated}</p>
                 </div>
-                <div>
+                <div id="saveAndStatus">
                     <SelectStatus id={invoiceDatas.id} status={invoiceDatas.status} />
-                    <div className={"btn btn-success " + saveDisable} onClick={(e) => {updateInvoiceLines(e)}}>Save</div>
                 </div>
 
             </div>
@@ -180,6 +178,7 @@ function UpdateInvoice() {
 
             <form id="form-add-invoice">
                 <div className="Table">
+                    <div className={"btn btn-success " + saveDisable} onClick={(e) => {updateInvoiceLines(e)}}>Save</div>
                     <table id="table-add-invoice" onChange={() => updateTotaux()}>
                         <thead>
                         <tr>
@@ -211,7 +210,7 @@ function UpdateInvoice() {
                 <div className="btn-add-invoice" onClick={() => {addLine()}}>New invoice +</div>
             </div>
 
-            <div onClick={() => {
+            <div className="btn btn-danger" onClick={() => {
                 if(window.confirm('Êtes vous sûr de bien vouloir supprimer cette facture ?')){
                     Invoice.delete(invoiceDatas.id).then(() => {
                         window.location.href = '/invoice'
