@@ -36,6 +36,7 @@ function UpdateInvoice() {
                         lines.push(<Line data={line} />);
                     });
                     setLinesDatas(lines);
+                    updateTotaux()
                 })
             });
             setReload(false)
@@ -58,7 +59,7 @@ function UpdateInvoice() {
         let descriptions = document.querySelectorAll("input[name='description[]']");
         let unit = document.querySelectorAll("input[name='unit[]']");
         let unitPrice = document.querySelectorAll("input[name='unit_price[]']");
-        let vatPourcentage = document.querySelectorAll("input[name='vat_pourcentage[]']");
+        let vatPourcentage = document.querySelectorAll("c");
         let order = document.querySelectorAll("input[name='order[]']");
         let formData = [];
 
@@ -136,7 +137,18 @@ function UpdateInvoice() {
 
     const updateTotaux = () => {
     //Todo: calculer les totaux
+        let extVat = 0;
+        let incVat = 0;
+        document.querySelectorAll("input[name='ext_vat[]']").forEach((e) => {
+            extVat = extVat + parseInt(e.value)
+        });
+        document.querySelectorAll("input[name='int_vat[]']").forEach((e) => {
+            incVat = incVat + parseInt(e.value)
+        });
+        setTotalExtVat(extVat);
+        setTotalIncVat(incVat);
     };
+
 
     let lineKey = 0;
     let lineOrder = linesDatas.length + 1;
@@ -169,7 +181,7 @@ function UpdateInvoice() {
 
             <form id="form-add-invoice">
                 <div className="Table">
-                    <table id="table-add-invoice">
+                    <table id="table-add-invoice" onChange={() => updateTotaux()}>
                         <thead>
                         <tr>
                             <th>Description</th>

@@ -11,7 +11,7 @@ function Line(props, {invoice}) {
 
         e.target.parentNode.parentNode.childNodes[4].firstChild.value = Invoice.calcVatEuroForOneLine(unit, unitPrice, vatPourcentage);
         e.target.parentNode.parentNode.childNodes[5].firstChild.value = Invoice.calcExtVatForOneLine(unit, unitPrice);
-        e.target.parentNode.parentNode.childNodes[6].firstChild.value = Invoice.calcExtVatForOneLine(unit, unitPrice, vatPourcentage);
+        e.target.parentNode.parentNode.childNodes[6].firstChild.value = Invoice.calcIncVatForOneLine(unit, unitPrice, vatPourcentage);
     };
 
     //Suppresion d'une ligne
@@ -30,7 +30,7 @@ function Line(props, {invoice}) {
             <td><input type="number" name="vat_pourcentage[]" placeholder="0" defaultValue={props.data.vatPourcentage} onChange={(e) => {update(e)}}/></td>
             <td className="td-disable"><input type="number" name="vat_euro[]" placeholder="0" defaultValue={0} disabled={true} value={Invoice.calcVatEuroForOneLine(props.data.unit, props.data.unitPrice, props.data.vatPourcentage)}/></td>
             <td className="td-disable"><input type="number" name="ext_vat[]" placeholder={"0"} defaultValue={0} disabled={true} value={Invoice.calcExtVatForOneLine(props.data.unit, props.data.unitPrice)}/></td>
-            <td className="td-disable"><input type="number" name="int_vat[]" placeholder="0" defaultValue={0} disabled={true} value={Invoice.calcExtVatForOneLine(props.data.unit, props.data.unitPrice, props.data.vatPourcentage)}/> <a onClick={(e) => removeLine(e)}>del</a></td>
+            <td className="td-disable"><input type="number" name="int_vat[]" placeholder="0" defaultValue={0} disabled={true} value={Invoice.calcIncVatForOneLine(props.data.unit, props.data.unitPrice, props.data.vatPourcentage)}/> <a onClick={(e) => removeLine(e)}>del</a></td>
             <input type="hidden" name="order[]" value={props.data.sequence ? props.data.sequence : props.order}/>
         </tr>
     );
