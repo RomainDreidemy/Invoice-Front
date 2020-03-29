@@ -4,6 +4,7 @@ import Line from "../Generate/Line/Line";
 import axios from 'axios';
 import InvoiceLine from '../../../Services/InvoiceLine';
 import Invoice from '../../../Services/Invoice';
+import SelectStatus from "./Status/SelectStatus";
 
 
 
@@ -141,7 +142,6 @@ function UpdateInvoice() {
     };
 
     const updateTotaux = () => {
-    //Todo: calculer les totaux
         let extVat = 0;
         let incVat = 0;
         document.querySelectorAll("input[name='ext_vat[]']").forEach((e) => {
@@ -169,12 +169,7 @@ function UpdateInvoice() {
                 </div>
                 <div>
                     {/*TODO: Créer Component pour la sélection du statut*/}
-                    <select name="invoiceStatut" id="invoiceStatut" onChange={(e) => Invoice.changeStatus(invoiceDatas.id, e.target.value)}>
-                        <option value="1" selected={invoiceDatas.status === 1} >Paid</option>
-                        <option value="2" selected={invoiceDatas.status === 2}>Send</option>
-                        <option value="3" selected={invoiceDatas.status === 3}>In waiting</option>
-                        <option value="4" selected={invoiceDatas.status === 4}>To complete</option>
-                    </select>
+                    <SelectStatus id={invoiceDatas.id} status={invoiceDatas.status} />
                     <div className={"btn btn-success " + saveDisable} onClick={(e) => {updateInvoiceLines(e)}}>Save</div>
                 </div>
 
