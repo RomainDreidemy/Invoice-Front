@@ -70,6 +70,10 @@ class Invoice {
     static calcIncVatForOneLine(unit, unitPrice, vatPourcentage){
         return this.calcExtVatForOneLine(unit, unitPrice) + (this.calcExtVatForOneLine(unit, unitPrice) / 100 * vatPourcentage)
     }
+
+    static calcVatEuroForOneLine(unit, unitPrice, vatPourcentage){
+        return this.calcExtVatForOneLine(unit, unitPrice) / 100 * vatPourcentage
+    }
 }
 
 export default Invoice;

@@ -134,6 +134,10 @@ function UpdateInvoice() {
             });
     };
 
+    const updateTotaux = () => {
+    //Todo: calculer les totaux
+    };
+
     let lineKey = 0;
     let lineOrder = linesDatas.length + 1;
 
