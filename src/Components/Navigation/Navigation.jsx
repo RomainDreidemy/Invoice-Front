@@ -12,8 +12,8 @@ function Navigation() {
                 <ul>
                     <li>
                         <a href="/invoice">
-                            <img src={PictoInvoice} alt="Picto invoice"/>
-                            Invoice
+                            <img src={PictoInvoice} alt="Picto facture"/>
+                            Factures
                         </a>
                     </li>
                 </ul>

@@ -1,5 +1,7 @@
 import React from "react";
 import Invoice from "../../../../Services/Invoice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function Line(props, {invoice}) {
 
@@ -23,14 +25,16 @@ function Line(props, {invoice}) {
         <tr>
             <td>
                 {props.data.sequence ? props.data.sequence + " - " : ""}
-                <input type="text" name="description[]" placeholder="description..." defaultValue={props.data.name}/>
+                <input type="text" name="description[]" placeholder="Désignation..." defaultValue={props.data.name}/>
             </td>
             <td><input type="number" name="unit[]" placeholder="0" defaultValue={props.data.unit ? props.data.unit : 0} onChange={(e) => {update(e)}}/></td>
             <td><input type="number" name="unit_price[]" placeholder="0" defaultValue={props.data.unitPrice ? props.data.unitPrice : 0} onChange={(e) => {update(e)}}/></td>
             <td><input type="number" name="vat_pourcentage[]" placeholder="0" defaultValue={props.data.vatPourcentage ? props.data.vatPourcentage : 0} onChange={(e) => {update(e)}}/></td>
             <td className="td-disable"><input type="number" name="vat_euro[]" placeholder="0" defaultValue={0} disabled={true} value={Invoice.calcVatEuroForOneLine(props.data.unit, props.data.unitPrice, props.data.vatPourcentage)}/></td>
             <td className="td-disable"><input type="number" name="ext_vat[]" placeholder={"0"} defaultValue={0} disabled={true} value={Invoice.calcExtVatForOneLine(props.data.unit, props.data.unitPrice)}/></td>
-            <td className="td-disable"><input type="number" name="int_vat[]" placeholder="0" defaultValue={0} disabled={true} value={Invoice.calcIncVatForOneLine(props.data.unit, props.data.unitPrice, props.data.vatPourcentage)}/> <a onClick={(e) => removeLine(e)}>del</a></td>
+            <td className="td-disable"><input type="number" name="int_vat[]" placeholder="0" defaultValue={0} disabled={true} value={Invoice.calcIncVatForOneLine(props.data.unit, props.data.unitPrice, props.data.vatPourcentage)}/> <a onClick={(e) => removeLine(e)}>
+                <FontAwesomeIcon icon={faTrash} />
+            </a></td>
             <input type="hidden" name="order[]" value={props.data.sequence ? props.data.sequence : props.order}/>
         </tr>
     );

@@ -7,8 +7,8 @@ function InvoicesList() {
     return (
         <div id="InvoicesList">
             <div className="title-page">
-                <h1>Invoices list</h1>
-                <a href="/invoice/new" className="btn-add-invoice">New invoice +</a>
+                <h1>Liste des factures</h1>
+                <a href="/invoice/new" className="btn-add-invoice">Nouvelle facture +</a>
             </div>
 
             <Table/>

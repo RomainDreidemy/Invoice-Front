@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import './Table.scss';
-import axios from "axios";
 import Line from "../Line/Line";
 import Invoice from "../../../../Services/Invoice";
 
@@ -24,21 +23,21 @@ function Table() {
 
     return (
         <div className="Table">
-            <h3>Invoices ({invoices.length})</h3>
+            <h3>Factures ({invoices.length})</h3>
 
             <div className="action">
-                <a href="/">Delete</a>
-                <a href="/">Print</a>
-                <a href="/">Export</a>
+                <a href="/">Supprimer</a>
+                <a href="/">Imprimer</a>
+                <a href="/">Exporter</a>
             </div>
 
             <table>
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Date modified</th>
-                        <th>Date created</th>
+                        <th>Nom</th>
+                        <th>Statut</th>
+                        <th>Dernière modification</th>
+                        <th>Création</th>
                     </tr>
                 </thead>
                 <tbody>

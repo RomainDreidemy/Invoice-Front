@@ -163,8 +163,8 @@ function UpdateInvoice() {
             <div className="generateInfo">
                 <div>
                     <h1 id="nameInvoice" contentEditable={true} onBlur={(e => Invoice.changeName(invoiceDatas.id, e.target.textContent))} >{invoiceDatas.name}</h1>
-                    <p>Date modified : {invoiceDatas.dateModified}</p>
-                    <p>Date created : {invoiceDatas.dateCreated}</p>
+                    <p>Dernière modification : {invoiceDatas.dateModified}</p>
+                    <p>Création : {invoiceDatas.dateCreated}</p>
                 </div>
                 <div id="saveAndStatus">
                     <SelectStatus id={invoiceDatas.id} status={invoiceDatas.status} />
@@ -178,17 +178,17 @@ function UpdateInvoice() {
 
             <form id="form-add-invoice">
                 <div className="Table">
-                    <div className={"btn btn-success " + saveDisable} onClick={(e) => {updateInvoiceLines(e)}}>Save</div>
+                    <div className={"btn btn-success " + saveDisable} onClick={(e) => {updateInvoiceLines(e)}}>Sauvegarder</div>
                     <table id="table-add-invoice" onChange={() => updateTotaux()}>
                         <thead>
                         <tr>
-                            <th>Description</th>
-                            <th>Unit</th>
-                            <th>Unit Price</th>
-                            <th>VAT %</th>
-                            <th>VAT €</th>
-                            <th>Ext VAT</th>
-                            <th>Inc VAT</th>
+                            <th>Désignation</th>
+                            <th>Unité</th>
+                            <th>Prix à l'unité</th>
+                            <th>TVA %</th>
+                            <th>TVA €</th>
+                            <th>HT</th>
+                            <th>TTC</th>
                         </tr>
                         </thead>
                         <tbody id="table-add-invoice-body">
@@ -202,8 +202,8 @@ function UpdateInvoice() {
             </form>
 
             <div className="card-total">
-                Total Ext VAT : {totalExtVat} € <br/>
-                Total Inc VAT : {totalIncVat} €
+                Total HT : {totalExtVat} € <br/>
+                Total TTC : {totalIncVat} €
             </div>
 
             <div className="addLine">
@@ -216,7 +216,7 @@ function UpdateInvoice() {
                         window.location.href = '/invoice'
                     })
                 }
-            }}>Delete invoice</div>
+            }}>Supprimer</div>
         </div>
     );
 }

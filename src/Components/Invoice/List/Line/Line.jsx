@@ -10,23 +10,23 @@ function Line(props) {
     switch (invoice.status) {
         case 1:
             labelClass = "paid";
-            labelName = "Paid";
+            labelName = "Payé";
             break;
         case 2:
             labelClass = "send";
-            labelName = "Send";
+            labelName = "Envoyé";
             break;
         case 3:
             labelClass = "waiting";
-            labelName = "In waiting";
+            labelName = "En attente";
             break;
         case 4:
             labelClass = "to-complete";
-            labelName = "To complete";
+            labelName = "A compléter";
             break;
         default:
             labelClass = "to-complete";
-            labelName = "To complete";
+            labelName = "A compléter";
             break;
     }
 
