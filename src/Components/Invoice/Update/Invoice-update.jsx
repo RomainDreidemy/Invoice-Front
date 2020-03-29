@@ -30,6 +30,12 @@ function UpdateInvoice() {
     const getData = () => {
         if(reload){
             Invoice.getById(id).then((response) => {
+                let dateModified = new Date(response.dateModified);
+                dateModified = `${dateModified.getDate()}/${dateModified.getMonth()+1}/${dateModified.getFullYear()}`;
+                let dateCreated = new Date(response.dateCreated);
+                dateCreated = `${dateCreated.getDate()}/${dateCreated.getMonth()+1}/${dateCreated.getFullYear()}`;
+                response.dateModified = dateModified;
+                response.dateCreated = dateCreated;
                 setInvoiceDatas(response);
                 InvoiceLine.getLinesByInvoiceId(response.id).then((datas) => {
                     let lines = [];
@@ -163,9 +169,8 @@ function UpdateInvoice() {
             <div className="generateInfo">
                 <div>
                     <h1 id="nameInvoice" contentEditable={true} onBlur={(e => Invoice.changeName(invoiceDatas.id, e.target.textContent))} >{invoiceDatas.name}</h1>
-                    {/*Todo: afficher la date dynamiquement*/}
-                    <p>Date modified : 27/01/2019</p>
-                    <p>Date created : 26/01/2019</p>
+                    <p>Date modified : {invoiceDatas.dateModified}</p>
+                    <p>Date created : {invoiceDatas.dateCreated}</p>
                 </div>
                 <div>
                     <SelectStatus id={invoiceDatas.id} status={invoiceDatas.status} />
