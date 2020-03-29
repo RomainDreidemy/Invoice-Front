@@ -168,7 +168,6 @@ function UpdateInvoice() {
                     <p>Date created : 26/01/2019</p>
                 </div>
                 <div>
-                    {/*TODO: Créer Component pour la sélection du statut*/}
                     <SelectStatus id={invoiceDatas.id} status={invoiceDatas.status} />
                     <div className={"btn btn-success " + saveDisable} onClick={(e) => {updateInvoiceLines(e)}}>Save</div>
                 </div>
