@@ -11,8 +11,12 @@ class Invoice {
        })
    }
 
-    static getById(){
-    //    Todo: Récupérer les données par un identifiant
+    static getById(id){
+        return new Promise(((resolve, reject) => {
+            axios.get(`${process.env.REACT_APP_API}invoices/${id}`)
+                .then(({data}) => resolve(data))
+                .catch((err) => reject(err))
+        }))
     }
 
     static add(name){
@@ -57,6 +61,14 @@ class Invoice {
                })
            });
        }))
+    }
+
+    static calcExtVatForOneLine(unit, unitPrice){
+        return unit * unitPrice;
+    }
+
+    static calcIncVatForOneLine(unit, unitPrice, vatPourcentage){
+        return this.calcExtVatForOneLine(unit, unitPrice) + (this.calcExtVatForOneLine(unit, unitPrice) / 100 * vatPourcentage)
     }
 }
 

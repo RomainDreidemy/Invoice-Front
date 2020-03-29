@@ -10,6 +10,7 @@ import Invoice from '../../../Services/Invoice';
 function UpdateInvoice() {
     //Identifiant dans l'url
     let { id } = useParams();
+
     const [totalExtVat, setTotalExtVat] = useState(0);
     const [totalIncVat, setTotalIncVat] = useState(0);
     const [Lines, setLines] = useState([]);
@@ -24,41 +25,24 @@ function UpdateInvoice() {
         getData()
     });
 
-
-    //Todo Créer une method dans les Services pour récupérer les datas
+    //Récupère les données + les lignes
     const getData = () => {
         if(reload){
-            axios.get("https://127.0.0.1:8000/api/invoices/" + id)
-                .then(response => {
-                    setInvoiceDatas(response.data);
-                });
-            axios.get("https://127.0.0.1:8000/api/invoice_lines?Invoice=" + id)
-                .then(response => {
-                    let invoiceLines = response.data['hydra:member'];
+            Invoice.getById(id).then((response) => {
+                setInvoiceDatas(response);
+                InvoiceLine.getLinesByInvoiceId(response.id).then((datas) => {
                     let lines = [];
-                    let ExtVAT = 0;
-                    let IntVAT = 0;
-                    let i = 0;
-                    invoiceLines.map(line => {
-                        lines.push(<Line data={line}/>)
-
-                        ExtVAT = ExtVAT + (line.unitPrice * line.unit)
-                        IntVAT = IntVAT + (line.unitPrice * line.unit) + ((line.unitPrice * line.unit) / 100 * line.vatPourcentage)
-
+                    datas.map((line) => {
+                        lines.push(<Line data={line} />);
                     });
-
-                    setTotalIncVat(IntVAT);
-                    setTotalExtVat(ExtVAT);
-
                     setLinesDatas(lines);
-                });
-
+                })
+            });
             setReload(false)
         }
     };
 
-    getData();
-
+    //Ajoute une ligne dans le tableau
     const addLine = () => {
         let allLines = Lines;
         allLines.push(0);
@@ -66,6 +50,8 @@ function UpdateInvoice() {
         setReactEstDébile(ReactEstDébile+1);
     };
 
+    //Mets à jours les lignes uniquements
+    //Todo: Voir pour faire un post
     const updateInvoiceLines = (e) => {
         setSaveDisable("d-none");
         setInprogress(true);
