@@ -59,9 +59,14 @@ function UpdateInvoice() {
         let descriptions = document.querySelectorAll("input[name='description[]']");
         let unit = document.querySelectorAll("input[name='unit[]']");
         let unitPrice = document.querySelectorAll("input[name='unit_price[]']");
-        let vatPourcentage = document.querySelectorAll("c");
+        let vatPourcentage = document.querySelectorAll("input[name='vat_pourcentage[]'");
         let order = document.querySelectorAll("input[name='order[]']");
         let formData = [];
+
+        console.log(descriptions);
+        console.log(unit)
+        console.log(unitPrice)
+        console.log(vatPourcentage)
 
         for(let i = 0; i < descriptions.length; i++){
             formData.push([
