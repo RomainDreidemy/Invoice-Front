@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import './Generate.scss';
 import Line from "./Line/Line";
 import axios from "axios";
+import Invoice from "../../../Services/Invoice";
+import InvoiceLine from "../../../Services/InvoiceLine";
 
 function submitForm(){
 
@@ -23,41 +25,19 @@ function submitForm(){
     ]);
     }
 
-    let data = {
-        dateModified: new Date(),
-        dateCreated: new Date(),
-        status: 4,
-        User: '/api/users/3',
-        name: Name,
-    };
+    Invoice.add(Name).then((response) => {
+        let indexNbLines = 0;
+       formData.map(data => {
+           InvoiceLine.add(data[0], data[1], data[2], data[3], data[4], response.data['@id'])
+               .then(() => {
+                   indexNbLines++;
+                   if(indexNbLines === formData.length){
+                       window.location.href = '/invoice/update/' + response.data.id;
+                   }
+               })
 
-    axios.post("https://127.0.0.1:8000/api/invoices", data)
-        .then(response => {
-            console.log("Création d'une facture");
-            const idInvoice = response.data.id;
-            let indexNbLines = 0;
-            formData.map(data => {
-                let toSend = {
-                    name: data[0],
-                    unit: data[1],
-                    unitPrice: data[2],
-                    vatPourcentage: data[3],
-                    sequence: data[4],
-                    Invoice: response.data['@id']
-                };
-
-                axios.post("https://127.0.0.1:8000/api/invoice_lines", toSend)
-                    .then(response => {
-                        console.log("Création de ligne dans la facture");
-                        indexNbLines++;
-                        if(formData.length === indexNbLines){
-                            window.location.href = '/invoice/update/' + idInvoice;
-                        }
-                    })
-            });
-        });
-
-    console.log(formData);
+       })
+    });
 }
 
 function Generate() {

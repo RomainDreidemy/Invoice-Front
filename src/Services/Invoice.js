@@ -20,9 +20,16 @@ class Invoice {
     }
 
     static add(name){
-    //    Todo: Créer une nouvelle facture
+        return new Promise(((resolve, reject) => {
+            axios.post(`${process.env.REACT_APP_API}invoices`, {
+                dateModified: new Date(),
+                dateCreated: new Date(),
+                status: 4,
+                User: '/api/users/3',
+                name,
+            }).then((response) => resolve(response)).catch((err) => reject(err))
+        }))
     }
-
 
     static changeStatus(id, status){
         return new Promise(((resolve, reject) => {
