@@ -70,11 +70,6 @@ function UpdateInvoice() {
         let order = document.querySelectorAll("input[name='order[]']");
         let formData = [];
 
-        console.log(descriptions);
-        console.log(unit)
-        console.log(unitPrice)
-        console.log(vatPourcentage)
-
         for(let i = 0; i < descriptions.length; i++){
             formData.push([
                 descriptions[i].value,
@@ -90,11 +85,11 @@ function UpdateInvoice() {
         };
 
         // Mise a jour des infos Invoices
-        axios.patch ("https://127.0.0.1:8000/api/invoices/" + id, data, {
+        axios.patch("https://127.0.0.1:8000/api/invoices/" + id, data, {
             headers: {
                 'Content-Type': 'application/merge-patch+json',
             }
-            })
+        })
             .then(response => {
                 console.log("Invoice updated");
 

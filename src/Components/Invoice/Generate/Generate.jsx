@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import './Generate.scss';
 import Line from "./Line/Line";
-import axios from "axios";
 import Invoice from "../../../Services/Invoice";
 import InvoiceLine from "../../../Services/InvoiceLine";
 
@@ -22,7 +21,7 @@ function submitForm(){
             parseInt(unitPrice[i].value),
             parseInt(vatPourcentage[i].value),
             parseInt(order[i].value)
-    ]);
+        ]);
     }
 
     Invoice.add(Name).then((response) => {
