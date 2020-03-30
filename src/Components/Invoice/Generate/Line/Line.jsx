@@ -18,7 +18,8 @@ function Line(props, {invoice}) {
 
     //Suppresion d'une ligne
     const removeLine = (e) => {
-        if(window.confirm('Voulez-vous vraiment supprimer la ligne')){e.target.parentNode.parentNode.remove();}
+        console.log(e.target.parentNode.parentNode.parentNode.parentNode);
+        if(window.confirm('Voulez-vous vraiment supprimer la ligne')){e.target.parentNode.parentNode.parentNode.parentNode.remove();}
     };
 
     return (
