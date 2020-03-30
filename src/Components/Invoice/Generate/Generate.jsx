@@ -46,19 +46,16 @@ function Generate() {
     const [ReactEstDébile, setReactEstDébile] = useState(0);
 
     const updateTotal = () => {
-        let extVat = document.querySelectorAll("input[name='ext_vat[]']");
-        let IntVat = document.querySelectorAll("input[name='int_vat[]']");
-
-        let totalExtVat = 0;
-        let totalIntVat = 0;
-
-        for(let i = 0; i < extVat.length; i++){
-            totalExtVat = totalExtVat + parseInt(extVat[i].value);
-            totalIntVat = totalIntVat + parseInt(IntVat[i].value);
-        }
-
-        setTotalExtVat(totalExtVat);
-        setTotalIncVat(totalIntVat);
+        let extVat = 0;
+        let incVat = 0;
+        document.querySelectorAll("input[name='ext_vat[]']").forEach((e) => {
+            extVat = extVat + parseInt(e.value)
+        });
+        document.querySelectorAll("input[name='int_vat[]']").forEach((e) => {
+            incVat = incVat + parseInt(e.value)
+        });
+        setTotalExtVat(extVat);
+        setTotalIncVat(incVat);
     };
 
     const addLine = () => {
@@ -86,7 +83,7 @@ function Generate() {
                     <div className="flexSaveButton">
                         <div className="btn btn-success" id="saveButton" onClick={() => {submitForm(); updateTotal()}}>Sauvegarder</div>
                     </div>
-                    <table id="table-add-invoice">
+                    <table id="table-add-invoice" onChange={() => updateTotal()}>
                         <thead>
                             <tr>
                                 <th>Désignation</th>
