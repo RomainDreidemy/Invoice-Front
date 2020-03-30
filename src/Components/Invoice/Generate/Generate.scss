@@ -28,3 +28,11 @@ div#Generate{
     }
   }
 }
+
+.flexSaveButton{
+  display: flex;
+  justify-content: flex-end;
+  #saveButton{
+    margin: 0 15px 15px 0;
+  }
+}

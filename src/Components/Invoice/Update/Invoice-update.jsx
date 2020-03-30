@@ -178,7 +178,9 @@ function UpdateInvoice() {
 
             <form id="form-add-invoice">
                 <div className="Table">
-                    <div className={"btn btn-success " + saveDisable} onClick={(e) => {updateInvoiceLines(e)}}>Sauvegarder</div>
+                    <div className="flexSaveButton">
+                        <div id="saveButton" className={"btn btn-success " + saveDisable} onClick={(e) => {updateInvoiceLines(e)}}>Sauvegarder</div>
+                    </div>
                     <table id="table-add-invoice" onChange={() => updateTotaux()}>
                         <thead>
                         <tr>
@@ -207,7 +209,7 @@ function UpdateInvoice() {
             </div>
 
             <div className="addLine">
-                <div className="btn-add-invoice" onClick={() => {addLine()}}>New invoice +</div>
+                <div className="btn-add-invoice" onClick={() => {addLine()}}>Ajouter une ligne +</div>
             </div>
 
             <div className="btn btn-danger" onClick={() => {

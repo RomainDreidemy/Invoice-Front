@@ -111,4 +111,16 @@ table{
   &.alert-warning{
     background: #FFEFCA;
   }
+
+  &.alert-success{
+    background: #d1f8da;
+  }
+
+  &.alert-danger{
+    background: #FFD9D1;
+  }
+
+  &.alert-info{
+    background: #EFE7FF;
+  }
 }

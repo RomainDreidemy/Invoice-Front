@@ -79,12 +79,14 @@ function Generate() {
                 <div>
                     <h1 id="nameInvoice" contentEditable={true}>Nom de la facture</h1>
                 </div>
-                <div className="btn btn-success" onClick={() => {submitForm(); updateTotal()}}>Sauvegarder</div>
             </div>
 
 
             <form id="form-add-invoice">
                 <div className="Table">
+                    <div className="flexSaveButton">
+                        <div className="btn btn-success" id="saveButton" onClick={() => {submitForm(); updateTotal()}}>Sauvegarder</div>
+                    </div>
                     <table id="table-add-invoice">
                         <thead>
                             <tr>
