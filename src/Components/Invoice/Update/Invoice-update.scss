@@ -1,0 +1,22 @@
+div#saveAndStatus{
+  display: flex;
+}
+
+select#invoiceStatut, select#invoiceStatut option{
+  padding: 5px;
+  height: 40px;
+  width: 125px;
+  border-radius: 5px;
+  &.status1{
+    background: #D1F8DA;
+  }
+  &.status3{
+    background: #FFEFCA;
+  }
+  &.status4{
+    background: #FFD9D1;
+  }
+  &.status2{
+    background: #EFE7FF;
+  }
+}
