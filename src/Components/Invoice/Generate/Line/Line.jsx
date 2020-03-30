@@ -11,9 +11,6 @@ function Line(props, {invoice}) {
             unitPrice = parseInt(e.target.parentNode.parentNode.childNodes[2].firstChild.value),
             vatPourcentage = parseInt(e.target.parentNode.parentNode.childNodes[3].firstChild.value);
 
-        console.log("Update...");
-
-
         e.target.parentNode.parentNode.childNodes[4].firstChild.value = Invoice.calcVatEuroForOneLine(unit, unitPrice, vatPourcentage);
         e.target.parentNode.parentNode.childNodes[5].firstChild.value = Invoice.calcExtVatForOneLine(unit, unitPrice);
         e.target.parentNode.parentNode.childNodes[6].firstChild.value = Invoice.calcIncVatForOneLine(unit, unitPrice, vatPourcentage);
@@ -21,7 +18,6 @@ function Line(props, {invoice}) {
 
     //Suppresion d'une ligne
     const removeLine = (e) => {
-        console.log(e.target.parentNode.parentNode.parentNode.parentNode);
         if(window.confirm('Voulez-vous vraiment supprimer la ligne')){e.target.parentNode.parentNode.parentNode.parentNode.remove();}
     };
 

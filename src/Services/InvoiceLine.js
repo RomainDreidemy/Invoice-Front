@@ -14,11 +14,9 @@ class InvoiceLine {
         return new Promise(((resolve, reject) => {
             axios.post("https://127.0.0.1:8000/api/invoice_lines", toSend)
                 .then(response => {
-                    console.log("Création de ligne dans la facture");
                     resolve();
                 })
                 .catch(() => {
-                    console.error("Une erreur est survenu lors de l'ajout d'une ligne");
                     reject()
                 })
             ;

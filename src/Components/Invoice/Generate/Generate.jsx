@@ -46,7 +46,6 @@ function Generate() {
     const [ReactEstDébile, setReactEstDébile] = useState(0);
 
     const updateTotal = () => {
-        console.log("update...");
         let extVat = document.querySelectorAll("input[name='ext_vat[]']");
         let IntVat = document.querySelectorAll("input[name='int_vat[]']");
 

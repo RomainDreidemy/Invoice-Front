@@ -90,15 +90,11 @@ function UpdateInvoice() {
             }
         })
             .then(response => {
-                console.log("Invoice updated");
-
                 let nbLineDeleted = 0;
                 // Suppression des lignes pour la facture
                 if(linesDatas.length !== 0){
                     linesDatas.map(lineData => {
-                        console.log(lineData.props.data.id);
                         InvoiceLine.delete(lineData.props.data.id).then(() => {
-                            console.log("Suppresion de la ligne " + lineData.props.data.name);
                             nbLineDeleted++;
                             if(nbLineDeleted === linesDatas.length){
                                 // Ajout de toutes les lignes
