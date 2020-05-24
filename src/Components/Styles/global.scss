@@ -40,6 +40,9 @@ table{
 
   td:first-child, th:first-child{
     padding-left: 10px;
+    svg{
+      margin-right: 10px;
+    }
   }
 
   tr.tr-hover{
@@ -67,6 +70,7 @@ table{
   text-align: center;
   color: #fff;
   border-radius: 30px;
+  cursor: pointer;
 }
 
 .btn{

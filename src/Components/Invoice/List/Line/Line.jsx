@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faFileInvoice} from "@fortawesome/free-solid-svg-icons";
 
 function Line(props) {
     let invoice = props.invoice;
@@ -32,7 +34,7 @@ function Line(props) {
 
     return(
         <tr className="hover" onClick={() => {window.location.href = '/invoice/update/' + invoice.id}}>
-            <td>{invoice.name}</td>
+            <td><FontAwesomeIcon icon={faFileInvoice}/>{invoice.name}</td>
             <td><div className={"label label-" + labelClass}>{labelName}</div></td>
             <td>{dateModified.getDate()}/{dateModified.getMonth()}/{dateModified.getFullYear()}</td>
             <td>{dateCreated.getDate()}/{dateCreated.getMonth()}/{dateCreated.getFullYear()}</td>
